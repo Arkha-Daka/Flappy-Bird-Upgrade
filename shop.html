@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kandang Burung</title>
+    <link rel="stylesheet" href="styleshop.css">
+</head>
+<body>
+    <h1>Kandang Burung</h1>
+    <p class="coin">Coins : <span id="coinCount">0</span></p>
+    <p style="align-items: center;">pilihlah karakter burungmu yang disukai</p>
+    <div class="shop">
+        <div class="shop-item">
+            <img src="images/Bird.png" alt="Bird">
+            <button data-img="images/Bird.png" onclick="buyBird('images/Bird.png', 0)">Sodiqin (Free)</button>
+        </div>
+        <div class="shop-item">
+            <img src="images/Bird2.png" alt="Bird">
+            <button data-img="images/Bird2.png" onclick="buyBird('images/Bird2.png', 10)">Agus - 10 Coins</button>
+        </div>
+        <div class="shop-item">
+            <img src="images/Bird3.png" alt="Bird">
+            <button data-img="images/Bird3.png" onclick="buyBird('images/Bird3.png', 20)">Kirno - 20 Coins</button>
+        </div>
+        <div class="shop-item">
+            <img src="images/Bird4.png" alt="Bird">
+            <button data-img="images/Bird4.png" onclick="buyBird('images/Bird4.png', 30)">Fatur - 30 Coins</button>
+        </div>
+        <div class="shop-item">
+            <img src="images/Bird5.png" alt="Bird">
+            <button data-img="images/Bird5.png" onclick="buyBird('images/Bird5.png', 50)">Lutpi Ngotak - 50 Coins</button>
+        </div>
+    </div>
+    <div class="back">
+        <a href="game.html">Back to Game</a>
+    </div>
+
+    <script>
+        let coinCount = parseInt(localStorage.getItem("flappyCoins") || "0");
+        let ownedBirds = JSON.parse(localStorage.getItem("ownedBirds") || '["images/Bird.png"]');
+        let selectedBird = localStorage.getItem("selectedBird") || "images/Bird.png";
+        document.getElementById("coinCount").textContent = coinCount;
+
+        function buyBird(img, cost) {
+            if (!ownedBirds.includes(img)) {
+                if (coinCount >= cost) {
+                    coinCount -= cost;
+                    ownedBirds.push(img);
+                    localStorage.setItem("ownedBirds", JSON.stringify(ownedBirds));
+                    alert("Purchased and selected!");
+                }
+                else {
+                    alert("Not enough coind!");
+                    return;
+                }
+            }  
+            else {
+                alert("Bird Selected");
+            }
+
+            selectedBird = img;
+            localStorage.setItem("selectedBird", selectedBird);
+            localStorage.setItem("flappyCoins", coinCount);
+            document.getElementById("coinCount").textContent = coinCount;
+
+           updateButtonLabels();
+        }
+
+        function updateButtonLabels() {
+            document.querySelectorAll(".shop-item button").forEach((btn) => {
+                const img = btn.getAttribute("data-img");
+                btn.classList.remove("selected", "owned", "buy");
+
+                if (img === selectedBird) {
+                    btn.textContent = "Selected";
+                    btn.classList.add("selected");
+                } 
+                else if (ownedBirds.includes(img)){
+                    btn.textContent = "Owned";
+                    btn.classList.add("owned");
+                } 
+                else {
+                    const cost = btn.getAttribute("onclick").match(/, (\d+)/);
+                    const price = cost ? cost[1] : '?';
+                    const name = img.split('/').pop().replace('.png', '');
+                    btn.textContent = `${name} - ${price} Coins`;
+                    btn.classList.add("buy");
+
+                }
+            });
+        }
+
+        updateButtonLabels();
+    </script>
+</body>
+</html>
