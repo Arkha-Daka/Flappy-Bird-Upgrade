@@ -1,0 +1,55 @@
+body{
+    font-family: sans-serif;
+    padding: 20px;
+    background-color: #B6F500;
+    text-align: center;
+}
+.shop-item{
+    margin-bottom: 15px;
+    background-color: #88b902;
+    border-radius: 10px;
+    text-align: center;
+    width: 150px;
+    border: 2px solid #A4DD00;
+}
+.shop-item img{
+    width: 150px;
+    height: 125px;
+}
+button{
+    padding: 10px;
+    border-radius: 10px;
+    width: 100px;
+}
+button.selected{
+    background-color: yellowgreen;
+}
+button.owned{
+    background-color: gray;
+}
+button.buy{
+    background-color: red;
+}
+h1{
+    text-align: center;
+}
+.coin{
+    text-align: center;
+}
+.shop{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 50px;
+}
+.back a{
+    font-size: 40px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+.back:hover{
+    background-color: yellow;
+}
